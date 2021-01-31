@@ -38,7 +38,8 @@ public enum Skin
 
 
         public Rigidbody rb;
-        
+
+        public int speed = 5;
         public override void OnStartLocalPlayer()
         {
             string[] skins = { "Dogger",
@@ -61,8 +62,9 @@ public enum Skin
             // move
             float vertical = Input.GetAxis("Vertical");
             Vector3 forward = transform.TransformDirection(Vector3.forward);
-            rb.velocity = forward * (vertical * 5);
+            //rb.AddForce(forward );
             
+            rb.MovePosition(transform.position + vertical * forward *  speed * Time.deltaTime );
 
             // shoot
             if (Input.GetKeyDown(shootKey))
