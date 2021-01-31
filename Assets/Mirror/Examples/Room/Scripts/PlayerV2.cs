@@ -18,7 +18,7 @@ using UnityEngine.AI;
     {
         [Header("Components")]
         public NavMeshAgent agent;
-        public Animator animator;
+     
 
         [Header("Movement")]
         public float rotationSpeed = 100;
@@ -51,8 +51,7 @@ using UnityEngine.AI;
             float vertical = Input.GetAxis("Vertical");
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             agent.velocity = forward * vertical * agent.speed;
-            animator.SetBool("Moving", agent.velocity != Vector3.zero);
-
+    
             // shoot
             if (Input.GetKeyDown(shootKey))
             {
@@ -83,7 +82,7 @@ using UnityEngine.AI;
         [ClientRpc]
         void RpcOnFire()
         {
-            animator.SetTrigger("Shoot");
+   
         }
 
         [Command]
