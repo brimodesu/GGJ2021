@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,9 +15,9 @@ public class PlayerScript : NetworkBehaviour
     
     [SyncVar]
     public List<GameObject> skins = new List<GameObject>();
-    
+
     [SyncVar]
-    public Skin selectedSkin;
+    public Skin2 selectedSkin;
 
     [SyncVar]
     public Vector3 Control;
@@ -103,7 +102,7 @@ public class PlayerScript : NetworkBehaviour
         
     }
 
-  
+    [Command]
     public void setSkin()
     {
         foreach (var skin in skins)

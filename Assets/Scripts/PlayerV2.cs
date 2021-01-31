@@ -88,7 +88,6 @@ using UnityEngine.AI;
 
         [Command]
         public void CmdSetupPlayer(Skin skin) {
-        Debug.Log(skin.ToString());
             selectedSkin = skin;
         }
 

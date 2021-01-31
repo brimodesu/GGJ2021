@@ -8,11 +8,11 @@ using Random = UnityEngine.Random;
 
 public struct CreatePlayerMessage : NetworkMessage
 {
-    public Skin skin;
+    public Skin2 skin;
     public string name;
 }
 
-public enum Skin
+public enum Skin2
 {
     Dogger,
     Tiburoncin,
@@ -36,7 +36,7 @@ public class CustomNetworkManager : NetworkManager
         CreatePlayerMessage characterMessage = new CreatePlayerMessage
         {
             name = "Player",
-            skin = (Skin) RandomEnumValue<Skin>()
+            skin = (Skin2) RandomEnumValue<Skin2>()
         };
        
         conn.Send(characterMessage);
