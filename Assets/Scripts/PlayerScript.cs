@@ -103,7 +103,7 @@ public class PlayerScript : NetworkBehaviour
         
     }
 
-    [ClientRpc]
+  
     public void setSkin()
     {
         foreach (var skin in skins)
