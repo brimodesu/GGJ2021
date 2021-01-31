@@ -33,16 +33,10 @@ using UnityEngine;
                     rb.position = Position+Velocity*(float)NetworkTime.rtt;//account for the lag and update our varibles
                     rb.rotation = Rotation*Quaternion.Euler(AngularVelocity * (float)NetworkTime.rtt);
                 
-                    if (rb.velocity.magnitude > Speed)
-                    {
-                        rb.velocity =  Vector3.ClampMagnitude(rb.velocity, Speed);
-                 
-                    }
-                    else
-                    {
+               
                         rb.velocity = Velocity;
                    
-                    }
+                    
 
                     rb.angularVelocity = AngularVelocity;
                 }
