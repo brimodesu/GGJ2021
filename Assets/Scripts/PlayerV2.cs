@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 
-    public enum Skin
+public enum Skin
     {
         Dogger,
         Tiburoncin,
         Rhino,
         Wolfang
     }
+
 
     public class PlayerV2 : NetworkBehaviour
     {
@@ -32,10 +34,19 @@ using UnityEngine.AI;
         public List<GameObject> skins = new List<GameObject>();
         
         [SyncVar(hook = nameof(OnSkinChanged))] 
-        public Skin selectedSkin;
+        public string selectedSkin;
 
-        public override void OnStartLocalPlayer() {
-            CmdSetupPlayer((Skin)RandomEnumValue<Skin>());
+
+        public Rigidbody rb;
+        
+        public override void OnStartLocalPlayer()
+        {
+            string[] skins = { "Dogger",
+                "Tiburoncin",
+                "Rhino",
+                "Wolfang" };
+            
+            CmdSetupPlayer(skins[Random.Range (0, skins.Length)]);
         }
 
         void Update()
@@ -50,7 +61,7 @@ using UnityEngine.AI;
             // move
             float vertical = Input.GetAxis("Vertical");
             Vector3 forward = transform.TransformDirection(Vector3.forward);
-            agent.velocity = forward * (vertical * agent.speed);
+            rb.velocity = forward * (vertical * 5);
             
 
             // shoot
@@ -60,10 +71,10 @@ using UnityEngine.AI;
             }
         }
 
-        void OnSkinChanged(Skin _Old, Skin _New) {
+        void OnSkinChanged(string _Old, string _New) {
             foreach (var skin in skins)
             {
-                if (skin.name.Equals(selectedSkin.ToString()))
+                if (skin.name.Equals(selectedSkin))
                 {
                     skin.SetActive(true);
                 }
@@ -87,14 +98,14 @@ using UnityEngine.AI;
         }
 
         [Command]
-        public void CmdSetupPlayer(Skin skin) {
+        public void CmdSetupPlayer(string skin) {
             selectedSkin = skin;
         }
 
         public static T RandomEnumValue<T>()
         {
             var values = Enum.GetValues(typeof(T));
-            int random = UnityEngine.Random.Range(0, values.Length);
+            int random = UnityEngine.Random.Range(0, values.Length-1);
             return (T)values.GetValue(random);
         }
     }

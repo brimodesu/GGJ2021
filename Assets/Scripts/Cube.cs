@@ -18,8 +18,7 @@ using UnityEngine;
         
         private void Update()
         {
-            if (GetComponent<NetworkIdentity>().isServer)//if we are the server update the varibles with our cubes rigidbody info
-            {
+          
                 Position = rb.position;
                 Rotation = rb.rotation;
                 Velocity = rb.velocity;
@@ -28,15 +27,24 @@ using UnityEngine;
                 rb.rotation = Rotation;
                 rb.velocity = Velocity;
                 rb.angularVelocity = AngularVelocity;
-            }
-            if (GetComponent<NetworkIdentity>().isClient)//if we are a client update our rigidbody with the servers rigidbody info
-            {
-                rb.position = Position+Velocity*(float)NetworkTime.rtt;//account for the lag and update our varibles
+         
+                if (GetComponent<NetworkIdentity>().isClient)//if we are a client update our rigidbody with the servers rigidbody info
+                {
+                    rb.position = Position+Velocity*(float)NetworkTime.rtt;//account for the lag and update our varibles
+                    rb.rotation = Rotation*Quaternion.Euler(AngularVelocity * (float)NetworkTime.rtt);
                 
-                rb.rotation = Rotation*Quaternion.Euler(AngularVelocity * (float)NetworkTime.rtt);
-                
-                rb.velocity = Velocity;
-                rb.angularVelocity = AngularVelocity;
-            }
+                    if (rb.velocity.magnitude > Speed)
+                    {
+                        rb.velocity =  Vector3.ClampMagnitude(rb.velocity, Speed);
+                 
+                    }
+                    else
+                    {
+                        rb.velocity = Velocity;
+                   
+                    }
+
+                    rb.angularVelocity = AngularVelocity;
+                }
         }
     }
