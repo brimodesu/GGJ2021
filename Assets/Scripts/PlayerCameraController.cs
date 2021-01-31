@@ -11,11 +11,18 @@ public class PlayerCameraController : NetworkBehaviour
 
     private CinemachineTransposer transposer;
 
+    public Transform target;
+
     public override void OnStartAuthority()
     {
-        transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-        virtualCamera.gameObject.SetActive(true);
-        enabled = true;
+        if (isLocalPlayer)
+        {
+            transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            virtualCamera.gameObject.SetActive(true);
+            virtualCamera.Follow = target;
+            virtualCamera.LookAt = target;
+            enabled = true;
+        }
     }
 
     private void Start()
